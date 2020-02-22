@@ -21,6 +21,16 @@ import numpy as np
 import cv2
 from sensor_extrinsics import get_T_B_V
 # from undistort import *
+cmap = plt.cm.jet
+def colored_depthmap(depth, d_min=None, d_max=None):
+    if d_min is None:
+        d_min = np.min(depth)
+    if d_max is None:
+        d_max = np.max(depth)
+    depth_relative = (depth - d_min) / (d_max - d_min)
+    colored = 255 * cmap(depth_relative)[:, :, :3]  # H, W, C
+
+    return colored
 
 def convert(x_s, y_s, z_s):
     scaling = 0.005  # 5 mm
@@ -97,8 +107,8 @@ def ssc_to_homo(ssc):
 
 def project_vel_to_cam(hits, cam_num):
     # Load camera parameters
-    K = np.loadtxt('params/K_cam%d.csv' % (cam_num), delimiter=',')
-    x_lb3_c = np.loadtxt('params/x_lb3_c%d.csv' % (cam_num), delimiter=',')
+    K = np.loadtxt('../params/K_cam%d.csv' % (cam_num), delimiter=',')
+    x_lb3_c = np.loadtxt('../params/x_lb3_c%d.csv' % (cam_num), delimiter=',')
 
     # Other coordinate transforms we need
     x_body_lb3 = [0.035, 0.002, -1.23, -179.93, -0.23, 0.50]
@@ -111,20 +121,15 @@ def project_vel_to_cam(hits, cam_num):
     T_c_lb3 = np.linalg.inv(T_lb3_c)
 
     T_c_body = np.matmul(T_c_lb3, T_lb3_body)
-    # T_body_vel = get_T_B_V()
-    # T_c_v = np.matmul(T_c_body, T_body_vel)
-    # t_test = np.array([[1, 0, 0, 0],
-    #                    [0, 1, 0, 0],
-    #                    [0, 0, 1, 0.2],
-    #                    [0, 0, 0, 1]])
-    # T_c_body = np.matmul(t_test, T_c_body)
+
     hits_c = np.matmul(T_c_body, hits)
     hits_im = np.matmul(K, hits_c[0:3, :])
-
+    print(hits_im.shape)
     return hits_im
 
 def project_vel2cam(vel, img, index):
     hits_body = load_vel_hits(vel)
+    print("hehe", hits_body.shape)
 
     # Load image
     # image = mpimg.imread(img)
@@ -159,10 +164,58 @@ def project_vel2cam(vel, img, index):
 
     return 0
 
+def project_vel2cam_cv2(vel, img, index):
+    hits_body = load_vel_hits(vel)
+    print("hehe", hits_body.shape)
+
+    # Load image
+    # image = mpimg.imread(img)
+
+    from undistort import Undistort
+    map_path = "/home/joohyun/git/nclt/U2D_Cam5_1616X1232.txt"
+    undistort = Undistort(map_path)
+    im = cv2.imread(cam)
+    # cv2.namedWindow('Image', cv2.WINDOW_NORMAL)
+    # cv2.imshow('Image', im)
+    image = undistort.undistort(im)[:, :, ::-1]
+    cam_num = int(index)
+
+    hits_image = project_vel_to_cam(hits_body, cam_num)
+
+    x_im = hits_image[0, :] / hits_image[2, :]
+    y_im = hits_image[1, :] / hits_image[2, :]
+    z_im = hits_image[2, :]
+
+    idx_infront = z_im > 0
+    x_im = x_im[idx_infront]
+    y_im = y_im[idx_infront]
+    z_im = z_im[idx_infront]
+
+    plt.figure(1)
+    depth = np.zeros(image.shape[:2])
+    for i in range(len(y_im)):
+
+        y_pix = int(round(y_im[i]))
+        x_pix = int(round(x_im[i]))
+        if 0 <= y_pix and y_pix < depth.shape[0]:
+            if 0 <= x_pix and x_pix < depth.shape[1]:
+                depth[y_pix, x_pix] = z_im[i]
+    viz = colored_depthmap(depth, np.min(depth), np.max(depth))
+    # cv2.imshow("viz", viz)
+    # cv2.waitKey(0)
+    cv2.imwrite("viz_t.png", viz)
+    # plt.imshow(image)
+    # plt.hold(True)
+    # plt.scatter(x_im, y_im, c=z_im, s=5, linewidths=0)
+    # plt.xlim(0, 1616)
+    # plt.ylim(0, 1232)
+    # plt.show()
+
+    return 0
 
 if __name__ == '__main__':
     # vel = "/home/joohyun/git/velodyne_data/2012-05-11/velodyne_sync/1336759411637320.bin"
     vel = "/home/joohyun/git/velodyne_data/2012-05-11/velodyne_sync/1336759309638372.bin"
     cam = "/home/joohyun/git/images/2012-05-11/lb3/Cam5/1336759309638372.tiff"
     index = 5
-    project_vel2cam(vel, cam, index)
+    project_vel2cam_cv2(vel, cam, index)

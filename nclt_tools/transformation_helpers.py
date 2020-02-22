@@ -31,7 +31,19 @@ def getQuaternionFromFromEulerAnglesRollPitchYawRad(roll_rad, pitch_rad, yaw_rad
 def getTransformationFromEulerAnglesRollPitchYawRadXYZMeters(roll_rad, pitch_rad, yaw_rad, x_m, y_m, z_m):
     R = getRotationMatrixFromEulerAnglesRollPitchYaw(roll_rad, pitch_rad, yaw_rad)
     T = np.identity(4)
-    T[:3, :3] = R
+
+    T[0, 0] = R[0, 0]
+    T[0, 1] = R[0, 1]
+    T[0, 2] = R[0, 2]
+
+    T[1, 0] = R[1, 0]
+    T[1, 1] = R[1, 1]
+    T[1, 2] = R[1, 2]
+
+    T[2, 0] = R[2, 0]
+    T[2, 1] = R[2, 1]
+    T[2, 2] = R[2, 2]
+
     T[0, 3] = x_m
     T[1, 3] = y_m
     T[2, 3] = z_m
@@ -46,15 +58,6 @@ def getTransformation(roll_rad, pitch_rad, yaw_rad, x_m, y_m, z_m):
     T[2, 3] = z_m
     return T
 
-# def dumpForYaml(T):
-#   M = T.getTransformationMatrix()
-#
-#   FILENAME = 'transformation.yaml'
-#   f = open(FILENAME, 'w')
-#   for i in range(16):
-#     row_idx = int(i) / int(4)
-#     col_idx = np.mod(i, 4)
-#     v = M[row_idx, col_idx]
-#     f.writelines('- ' + "%.16f" % v + '\n')
-#
-#   f.close()
+if __name__ == "__main__":
+    T_pose = getTransformationFromEulerAnglesRollPitchYawRadXYZMeters(0.019280938773022,  0.004926004634244, -1.755148224848629,
+                                                                      -1.126196628308417, -3.182984251150745,  0.73735968104628)

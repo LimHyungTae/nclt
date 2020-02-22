@@ -36,17 +36,17 @@ class Undistort(object):
     Optionally, define a mask
     """
 
-    def set_mask(fmask):
-        # add in the additional mask passed in as fmask
-        if fmask:
-            mask = cv2.cvtColor(cv2.imread(fmask), cv2.COLOR_BGR2GRAY)
-            self.mask = self.mask & mask
-        new_shape = (int(self.mask.shape[1] * scale), int(self.mask.shape[0] * scale))
-        self.mask = cv2.resize(self.mask, new_shape,
-                               interpolation=cv2.INTER_CUBIC)
-        # plt.figure(1)
-        # plt.imshow(self.mask, cmap='gray')
-        # plt.show()
+    # def set_mask(fmask):
+    #     # add in the additional mask passed in as fmask
+    #     if fmask:
+    #         mask = cv2.cvtColor(cv2.imread(fmask), cv2.COLOR_BGR2GRAY)
+    #         self.mask = self.mask & mask
+    #     new_shape = (int(self.mask.shape[1] * scale), int(self.mask.shape[0] * scale))
+    #     self.mask = cv2.resize(self.mask, new_shape,
+    #                            interpolation=cv2.INTER_CUBIC)
+    #     # plt.figure(1)
+    #     # plt.imshow(self.mask, cmap='gray')
+    #     # plt.show()
 
     """
     Use OpenCV to undistorted the given image
@@ -113,22 +113,20 @@ def process(image_folder, undistort_map):
 
 
 def main():
+    from nclt_tools.CONFIG import *
     parser = argparse.ArgumentParser(description="Undistort images")
     # parser.add_argument('image_folders_path',  type=str, help='image_folders_path')
     # parser.add_argument('u_maps', type=str, help='undistortion maps')
 
     images_folder = '/home/joohyun/git/images'
-    name = "2012-05-11"
 
-    cam_index = 5
+    print 'Processing cam ', CAMERA_IDX
+    cam_folder = 'Cam' + str(CAMERA_IDX)
 
-    print 'Processing cam ', cam_index
-    cam_folder = 'Cam' + str(cam_index)
+    u_map = 'U2D_Cam' + str(CAMERA_IDX) + '_1616X1232.txt'
 
-    u_map = 'U2D_Cam' + str(cam_index) + '_1616X1232.txt'
-
-    if os.path.isdir(os.path.join(images_folder, name)):
-        image_path = os.path.join(images_folder, name, 'lb3', cam_folder)
+    if os.path.isdir(os.path.join(images_folder, DATE)):
+        image_path = os.path.join(images_folder, DATE, 'lb3', cam_folder)
         print 'Processing directory ' + image_path
         process(image_path, u_map)
 
