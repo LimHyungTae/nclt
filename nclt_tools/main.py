@@ -154,7 +154,7 @@ def project_other_time_vel_to_cam(hits, t_vel, t_curr):
 
     return hits_im
 
-def project_vels2cam(t_idx, viz=True):
+def project_vels2cam(t_idx, img_size, viz=True):
     global CAMERA_IDX
     time = TIMES[t_idx]
     vel = get_name(time, "vel")
@@ -181,28 +181,32 @@ def project_vels2cam(t_idx, viz=True):
     y_im = y_im[idx_infront]
     z_im = z_im[idx_infront]
 
-    img = get_name(time, "img")
-    image = cv2.imread(img).astype(np.uint8)[:, :, ::-1]
 
-    depth = np.zeros(image.shape[:2])
+    depth = np.zeros(img_size)
     for i in range(len(y_im)):
-
         y_pix = int(round(y_im[i]))
         x_pix = int(round(x_im[i]))
         if 0 <= y_pix and y_pix < depth.shape[0]:
             if 0 <= x_pix and x_pix < depth.shape[1]:
                 depth[y_pix, x_pix] = z_im[i]
-    viz = colored_depthmap(depth, 0, np.max(depth))
-    # img_transpose = np.transpose(image, (1, 0, 2))
-    # w = 912
-    # h = 228
-    # print(img_transpose.shape)
-    # img_transpose = cv2.rectangle(img_transpose, (400, 200), (800, 400), (0, 0, 255), 2)
-    # cv2.imwrite("result_img.png",  img_transpose)
-    # cv2.imwrite("result_viz.png", np.transpose(viz, (1, 0, 2)))
+    if not viz:
+        return depth
+    else:
+        viz = colored_depthmap(depth, 0, np.max(depth))
+        img = get_name(time, "img")
+        image = cv2.imread(img).astype(np.uint8)[:, :, ::-1]
+        plt.figure(1)
+        plt.imshow(image)
+        plt.hold(True)
+        plt.scatter(x_im, y_im, c=z_im, s=5, linewidths=0)
+        plt.xlim(0, 1616)
+        plt.ylim(0, 1232)
+        plt.show()
+        cv2.imshow("comparison", viz)
+        cv2.waitKey(0)
     return 0
 
-def project_hokuyo2cam(t_idx, viz=True):
+def project_hokuyo2cam(t_idx, img_size, viz=True):
     global CAMERA_IDX
     time = TIMES[t_idx]
     hits_body = load_hokuyo(time)
@@ -217,38 +221,72 @@ def project_hokuyo2cam(t_idx, viz=True):
     y_im = y_im[idx_infront]
     z_im = z_im[idx_infront]
 
-    img = get_name(time, "img")
-    image = cv2.imread(img).astype(np.uint8)[:, :, ::-1]
 
-    # depth = np.zeros(image.shape[:2])
-    # for i in range(len(y_im)):
-    #
-    #     y_pix = int(round(y_im[i]))
-    #     x_pix = int(round(x_im[i]))
-    #     if 0 <= y_pix and y_pix < depth.shape[0]:
-    #         if 0 <= x_pix and x_pix < depth.shape[1]:
-    #             depth[y_pix, x_pix] = z_im[i]
-    # viz = colored_depthmap(depth, 0, np.max(depth))
-    plt.figure(1)
-    plt.imshow(image)
-    plt.hold(True)
-    plt.scatter(x_im, y_im, c=z_im, s=5, linewidths=0)
-    plt.xlim(0, 1616)
-    plt.ylim(0, 1232)
-    plt.show()
-    # img_transpose = np.transpose(image, (1, 0, 2))
-    # w = 912
-    # h = 228
-    # print(img_transpose.shape)
-    # img_transpose = cv2.rectangle(img_transpose, (400, 200), (800, 400), (0, 0, 255), 2)
-    # cv2.imwrite("result_img.png",  img_transpose)
-    # cv2.imwrite("result_viz.png", np.transpose(viz, (1, 0, 2)))
-    return 0
+    depth = np.zeros(img_size)
+    for i in range(len(y_im)):
+
+        y_pix = int(round(y_im[i]))
+        x_pix = int(round(x_im[i]))
+        if 0 <= y_pix and y_pix < depth.shape[0]:
+            if 0 <= x_pix and x_pix < depth.shape[1]:
+                depth[y_pix, x_pix] = z_im[i]
+    if not viz:
+        return depth
+    else:
+        viz = colored_depthmap(depth, 0, np.max(depth))
+
+        img = get_name(time, "img")
+        image = cv2.imread(img).astype(np.uint8)[:, :, ::-1]
+
+        plt.figure(1)
+        plt.imshow(image)
+        plt.hold(True)
+        plt.scatter(x_im, y_im, c=z_im, s=5, linewidths=0)
+        plt.xlim(0, 1616)
+        plt.ylim(0, 1232)
+        plt.show()
+        cv2.imshow("hky", viz)
+        cv2.waitKey(0)
+
 
 if __name__ == '__main__':
     from nclt_tools.CONFIG import *
+    from random import random
+    from gen_h5 import generate_nclt_h5
+    from tqdm import tqdm
+    epsilon = 0.0000001
+    SKIP = 8 # When train data
+    SKIP = 100 # When val data
+    for i in tqdm(len(TIMES)):
 
-    # project_vels2cam(1213)
-    project_hokuyo2cam(2200)
-    # project_vel2cam(3131)
-    # project_vel2cam(20010)
+        src_idx = i
+        vel_proj = project_vels2cam(src_idx, (1232, 1616), viz=False)
+        scan_proj = project_hokuyo2cam(src_idx, (1232, 1616), viz=False)
+        img = get_name(TIMES[src_idx], "img")
+        image = cv2.imread(img).astype(np.uint8)
+        print(vel_proj.shape)
+        print(scan_proj.shape)
+        print(image.shape)
+        x = 160
+        y = 730
+        w = 912
+        h = 228
+        vel_proj = vel_proj[x:x + w, y:y + h].transpose(1, 0)
+        scan_proj = scan_proj[x:x + w, y:y + h].transpose(1, 0)
+        viz_v = colored_depthmap(vel_proj, 0, np.max(vel_proj) + epsilon).astype(np.uint8)
+        viz_s = colored_depthmap(scan_proj, 0, np.max(scan_proj) + epsilon).astype(np.uint8)
+
+        image = image[x:x + w, y:y + h].transpose(1, 0, 2)
+
+        print(viz_v.shape)
+        print(viz_s.shape)
+        print(image.shape)
+
+        merged = cv2.vconcat([image, viz_v, viz_s])
+        # cv2.imshow("img", merged)
+        # cv2.waitKey(0)
+        if not os.path.exists("results"):
+            os.mkdir("results")
+
+        file_path = os.path.join("results", str(src_idx).zfill(5) + ".h5")
+        generate_nclt_h5(file_path, img=image, gt=vel_proj, scan_proj=scan_proj)

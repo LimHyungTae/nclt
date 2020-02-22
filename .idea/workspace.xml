@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4fc805b-cdf7-414f-9dd6-9a298617517b" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distort_all_ours.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nclt_tools/CONFIG.py" beforeDir="false" afterPath="$PROJECT_DIR$/nclt_tools/CONFIG.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nclt_tools/project_vel_to_cam.py" beforeDir="false" afterPath="$PROJECT_DIR$/nclt_tools/project_vel_to_cam.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nclt_tools/read_hokuyo_30m.py" beforeDir="false" afterPath="$PROJECT_DIR$/nclt_tools/read_hokuyo_30m.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nclt_tools/transformation_helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/nclt_tools/transformation_helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/synchronizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/synchronizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/undistort_all.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nclt_tools/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/nclt_tools/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +54,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.CONFIG">
+  <component name="RunManager" selected="Python.gen_h5">
     <configuration name="CONFIG" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="nclt_tools" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -82,7 +77,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="gen_h5" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="nclt_tools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gen_h5.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="nclt_tools" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -95,7 +112,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nclt_tools/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -148,35 +165,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sync_hokuyo_30m" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="nclt_tools" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/sync_hokuyo_30m.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gen_h5" />
+        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.CONFIG" />
         <item itemvalue="Python.read_hokuyo_30m" />
         <item itemvalue="Python.sync_hokuyo_30m (1)" />
-        <item itemvalue="Python.sync_hokuyo_30m" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -192,7 +187,7 @@
       <updated>1582304066958</updated>
       <workItem from="1582318085670" duration="12241000" />
       <workItem from="1582331230187" duration="20304000" />
-      <workItem from="1582370588043" duration="9239000" />
+      <workItem from="1582370588043" duration="13265000" />
     </task>
     <servers />
   </component>
@@ -200,26 +195,30 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1807" height="278" key="GridCell.Tab.0.bottom" timestamp="1582379507026">
+    <state x="3726" y="301" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1582383357696">
+      <screen x="3000" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3726" y="301" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582383357696" />
+    <state width="1807" height="278" key="GridCell.Tab.0.bottom" timestamp="1582383516262">
       <screen x="3000" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="287" key="GridCell.Tab.0.bottom/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@1080.0.1920.1080" timestamp="1582370213775" />
-    <state width="1807" height="278" key="GridCell.Tab.0.bottom/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582379507026" />
-    <state width="1807" height="278" key="GridCell.Tab.0.center" timestamp="1582379507026">
+    <state width="1807" height="278" key="GridCell.Tab.0.bottom/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582383516262" />
+    <state width="1807" height="278" key="GridCell.Tab.0.center" timestamp="1582383516261">
       <screen x="3000" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="287" key="GridCell.Tab.0.center/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@1080.0.1920.1080" timestamp="1582370213775" />
-    <state width="1807" height="278" key="GridCell.Tab.0.center/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582379507026" />
-    <state width="1807" height="278" key="GridCell.Tab.0.left" timestamp="1582379507026">
+    <state width="1807" height="278" key="GridCell.Tab.0.center/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582383516261" />
+    <state width="1807" height="278" key="GridCell.Tab.0.left" timestamp="1582383516261">
       <screen x="3000" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="287" key="GridCell.Tab.0.left/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@1080.0.1920.1080" timestamp="1582370213775" />
-    <state width="1807" height="278" key="GridCell.Tab.0.left/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582379507026" />
-    <state width="1807" height="278" key="GridCell.Tab.0.right" timestamp="1582379507026">
+    <state width="1807" height="278" key="GridCell.Tab.0.left/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582383516261" />
+    <state width="1807" height="278" key="GridCell.Tab.0.right" timestamp="1582383516262">
       <screen x="3000" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="287" key="GridCell.Tab.0.right/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@1080.0.1920.1080" timestamp="1582370213775" />
-    <state width="1807" height="278" key="GridCell.Tab.0.right/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582379507026" />
+    <state width="1807" height="278" key="GridCell.Tab.0.right/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582383516262" />
     <state width="1874" height="354" key="GridCell.Tab.1.bottom" timestamp="1582370213773">
       <screen x="1080" y="0" width="1920" height="1080" />
     </state>
@@ -258,10 +257,11 @@
       <screen x="1080" y="0" width="1920" height="1080" />
     </state>
     <state x="1608" y="54" width="863" height="969" key="find.popup/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@1080.0.1920.1080" timestamp="1582324617916" />
-    <state x="3656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1582335276799">
+    <state x="3656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1582381443159">
       <screen x="3000" y="0" width="1920" height="1080" />
     </state>
     <state x="3656" y="257" width="672" height="678" key="search.everywhere.popup/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@1080.0.1920.1080" timestamp="1582335276799" />
+    <state x="3656" y="257" width="672" height="678" key="search.everywhere.popup/3000.0.1920.1080/1080.0.1920.1080/0.27.1080.1893@3000.0.1920.1080" timestamp="1582381443159" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/nclt$transformation_helpers.coverage" NAME="transformation_helpers Coverage Results" MODIFIED="1582369739201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nclt_tools" />
@@ -269,11 +269,13 @@
     <SUITE FILE_PATH="coverage/nclt$CONFIG.coverage" NAME="CONFIG Coverage Results" MODIFIED="1582379507020" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nclt_tools" />
     <SUITE FILE_PATH="coverage/nclt$project_vel_to_cam_ours.coverage" NAME="project_vel_to_cam_ours Coverage Results" MODIFIED="1582321270344" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/nclt$Synchronizer.coverage" NAME="synchronizer Coverage Results" MODIFIED="1582365143940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/nclt$gen_h5.coverage" NAME="gen_h5 Coverage Results" MODIFIED="1582383516242" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/nclt$read_vel_sync.coverage" NAME="read_vel_sync Coverage Results" MODIFIED="1582325547755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/nclt$write_sync_pose.coverage" NAME="write_sync_pose Coverage Results" MODIFIED="1582371450987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/nclt$sync_hokuyo_30m.coverage" NAME="sync_hokuyo_30m Coverage Results" MODIFIED="1582376896474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/nclt$scribble.coverage" NAME="scribble Coverage Results" MODIFIED="1582360408047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/nclt$project_vel_to_cam__1_.coverage" NAME="project_vel_to_cam (1) Coverage Results" MODIFIED="1582366065032" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nclt_tools" />
+    <SUITE FILE_PATH="coverage/nclt$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1582383369536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nclt_tools" />
     <SUITE FILE_PATH="coverage/nclt$undistort.coverage" NAME="undistort Coverage Results" MODIFIED="1582327588361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/nclt$project_vel_to_cam_ws.coverage" NAME="project_vel_to_cam_ws Coverage Results" MODIFIED="1582374738477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nclt_tools" />
     <SUITE FILE_PATH="coverage/nclt$project_vel_to_cam.coverage" NAME="project_vel_to_cam Coverage Results" MODIFIED="1582327875135" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
