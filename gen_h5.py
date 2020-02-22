@@ -31,7 +31,7 @@ def generate_nclt_h5(path, img, gt, scan_proj):
 
     hf = h5py.File(path, 'w')
     # Make it reverse is for mathing the format of sparse-to-depth prediction code
-    hf.create_dataset("rgb", data=np.transpose(img, (2, 0, 1)))
+    hf.create_dataset("rgb", data=np.transpose(img, (2, 0, 1))[::-1, :, :])
     hf.create_dataset("scan_projected", data=scan_proj)
     hf.create_dataset("depth", data=gt)
 
