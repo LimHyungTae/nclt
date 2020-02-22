@@ -4,3 +4,4 @@ nclt_tools/results
 nclt_tools/*.tar.gz
 nclt_tools/*.zip
 *.png
+.idea
