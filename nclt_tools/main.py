@@ -255,18 +255,21 @@ if __name__ == '__main__':
     from gen_h5 import generate_nclt_h5
     from tqdm import tqdm
     epsilon = 0.0000001
-    SKIP = 8 # When train data
+    # SKIP = 8 # When train data
     SKIP = 100 # When val data
-    for i in tqdm(len(TIMES)):
+    OFFSET = 1
+    for i in tqdm(range(len(TIMES))):
+        if (i + OFFSET) % SKIP != 0:
+            continue
 
         src_idx = i
         vel_proj = project_vels2cam(src_idx, (1232, 1616), viz=False)
         scan_proj = project_hokuyo2cam(src_idx, (1232, 1616), viz=False)
         img = get_name(TIMES[src_idx], "img")
         image = cv2.imread(img).astype(np.uint8)
-        print(vel_proj.shape)
-        print(scan_proj.shape)
-        print(image.shape)
+        # print(vel_proj.shape)
+        # print(scan_proj.shape)
+        # print(image.shape)
         x = 160
         y = 730
         w = 912
@@ -278,9 +281,9 @@ if __name__ == '__main__':
 
         image = image[x:x + w, y:y + h].transpose(1, 0, 2)
 
-        print(viz_v.shape)
-        print(viz_s.shape)
-        print(image.shape)
+        # print(viz_v.shape)
+        # print(viz_s.shape)
+        # print(image.shape)
 
         merged = cv2.vconcat([image, viz_v, viz_s])
         # cv2.imshow("img", merged)
