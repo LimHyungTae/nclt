@@ -56,13 +56,47 @@ def read_hokuyo(hokuyo_bin):
         x = r * np.cos(angles)
         y = r * np.sin(angles)
 
-        plt.clf()
-        plt.plot(x, y, '.')
-        plt.title(utime)
-        plt.draw()
-
-    plt.show()
+    #     plt.clf()
+    #     plt.plot(x, y, '.')
+    #     plt.title(utime)
+    #     plt.draw()
+    #
+    # plt.show()
     f_bin.close()
+
+    return 0
+
+def read_h30(f_bin):
+
+
+    # hokuyo_30m always has 1081 hits
+    num_hits = 1081
+
+    # angles for each range observation
+    rad0 = -135 * (np.pi/180.0)
+    radstep = 0.25 * (np.pi/180.0)
+    angles = np.linspace(rad0, rad0 + (num_hits-1)*radstep, num_hits)
+
+
+    count = 0
+
+    # Read timestamp
+    utime = struct.unpack('<Q', f_bin.read(8))[0]
+
+    print 'Timestamp', utime
+
+    r = np.zeros(num_hits)
+
+    for i in range(num_hits):
+
+        s = struct.unpack('<H', f_bin.read(2))[0]
+        r[i] = convert(s)
+
+        #print s
+
+    x = r * np.cos(angles)
+    y = r * np.sin(angles)
+
 
     return 0
 

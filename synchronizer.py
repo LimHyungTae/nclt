@@ -5,6 +5,7 @@ import struct
 import matplotlib.pyplot as plt
 import copy
 import scipy.interpolate
+from nclt_tools.project_vel_to_cam import *
 
 CUTOFF_EDGE = 30
 WINDOW_SIZE = 9
@@ -62,8 +63,11 @@ class Synchronizer(object):
         self.set_times()
         self.poses = []
         self.interp_pose()
-        self.check_h30_time()
+        # self.check_h30_time()
         # self.sync_vel_and_img()
+        cam_num = 5
+        self.K = np.loadtxt('params/K_cam%d.csv' % (cam_num), delimiter=',')
+        self.x_lb3_c = np.loadtxt('params/x_lb3_c%d.csv' % (cam_num), delimiter=',')
 
     def set_times(self):
         img_names = copy.deepcopy(self.img_list[CUTOFF_EDGE:-CUTOFF_EDGE])
@@ -76,9 +80,55 @@ class Synchronizer(object):
         interp = scipy.interpolate.interp1d(gt[:, 0], gt[:, 1:], axis=0, fill_value="extrapolate")
         self.poses = interp(self.synced_times)
 
-    def check_h30_time(self):
-        for time in self.synced_times:
-            self.set_h30(time)
+
+    def project_vel_to_cam(self, hits):
+        # Load camera parameters
+
+        # Other coordinate transforms we need
+        x_body_lb3 = [0.035, 0.002, -1.23, -179.93, -0.23, 0.50]
+
+        # Now do the projection
+        T_lb3_c = ssc_to_homo(self.x_lb3_c)
+        T_body_lb3 = ssc_to_homo(x_body_lb3)
+
+        T_lb3_body = np.linalg.inv(T_body_lb3)
+        T_c_lb3 = np.linalg.inv(T_lb3_c)
+
+        T_c_body = np.matmul(T_c_lb3, T_lb3_body)
+
+        hits_c = np.matmul(T_c_body, hits)
+        hits_im = np.matmul(self.K, hits_c[0:3, :])
+
+        return hits_im
+
+    def project_vel2cam(self, vel, img, index):
+        hits_body = load_vel_hits(vel)
+        im = cv2.imread(cam)
+        cam_num = int(index)
+
+        hits_image = project_vel_to_cam(hits_body, cam_num)
+
+        x_im = hits_image[0, :] / hits_image[2, :]
+        y_im = hits_image[1, :] / hits_image[2, :]
+        z_im = hits_image[2, :]
+
+        idx_infront = z_im > 0
+        x_im = x_im[idx_infront]
+        y_im = y_im[idx_infront]
+        z_im = z_im[idx_infront]
+
+        plt.figure(1)
+        # plt.imshow(image)
+        plt.hold(True)
+        plt.scatter(x_im, y_im, c=z_im, s=5, linewidths=0)
+        plt.xlim(0, 1616)
+        plt.ylim(0, 1232)
+        plt.show()
+
+        return 0
+    # def check_h30_time(self):
+    #     for time in self.synced_times:
+    #         self.set_h30(time)
 
     def set_h30(self, time):
         utime = struct.unpack('<Q', self.h30_bin.read(8))[0]
@@ -139,6 +189,15 @@ if __name__ == "__main__":
     no_there = 0
     gt_times = gt[:-1, 0]
     gt_times2 = gt[1:, 0]
-    print(gt_times.shape)
+    from nclt_tools.read_hokuyo_30m import read_h30
+    h30_bin = open(hokuyo_path, "r")
+    read_h30(h30_bin)
+    read_h30(h30_bin)
+    read_h30(h30_bin)
+    read_h30(h30_bin)
+    h30_bin.close()
 
-    sync = Synchronizer(gt_path, hokuyo_path, vel_dir, undistorted_dir)
+    # print(img_list[0])
+    # print(utime)
+    # print(img_list[0] - utime)
+    # sync = Synchronizer(gt_path, hokuyo_path, vel_dir, undistorted_dir)
