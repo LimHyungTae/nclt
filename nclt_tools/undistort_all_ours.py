@@ -7,7 +7,7 @@ import argparse
 import re
 import os
 import csv
-
+from nclt_tools.CONFIG import *
 
 class Undistort(object):
 
@@ -113,18 +113,18 @@ def process(image_folder, undistort_map):
 
 
 def main():
-    from nclt_tools.CONFIG import *
+
     parser = argparse.ArgumentParser(description="Undistort images")
     # parser.add_argument('image_folders_path',  type=str, help='image_folders_path')
     # parser.add_argument('u_maps', type=str, help='undistortion maps')
 
-    images_folder = '/home/joohyun/git/images'
+    images_folder = '/home/yunsookim/git/images'
 
     print 'Processing cam ', CAMERA_IDX
     cam_folder = 'Cam' + str(CAMERA_IDX)
 
-    u_map = 'U2D_Cam' + str(CAMERA_IDX) + '_1616X1232.txt'
-
+    u_map = '../U2D_Cam' + str(CAMERA_IDX) + '_1616X1232.txt'
+    print(os.path.join(images_folder, DATE))
     if os.path.isdir(os.path.join(images_folder, DATE)):
         image_path = os.path.join(images_folder, DATE, 'lb3', cam_folder)
         print 'Processing directory ' + image_path
