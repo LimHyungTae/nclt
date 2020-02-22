@@ -261,35 +261,37 @@ if __name__ == '__main__':
     for i in tqdm(range(len(TIMES))):
         if (i + OFFSET) % SKIP != 0:
             continue
+        try:
+            src_idx = i
+            vel_proj = project_vels2cam(src_idx, (1232, 1616), viz=False)
+            scan_proj = project_hokuyo2cam(src_idx, (1232, 1616), viz=False)
+            img = get_name(TIMES[src_idx], "img")
+            image = cv2.imread(img).astype(np.uint8)
+            # print(vel_proj.shape)
+            # print(scan_proj.shape)
+            # print(image.shape)
+            x = 160
+            y = 730
+            w = 912
+            h = 228
+            vel_proj = vel_proj[x:x + w, y:y + h].transpose(1, 0)
+            scan_proj = scan_proj[x:x + w, y:y + h].transpose(1, 0)
+            viz_v = colored_depthmap(vel_proj, 0, np.max(vel_proj) + epsilon).astype(np.uint8)
+            viz_s = colored_depthmap(scan_proj, 0, np.max(scan_proj) + epsilon).astype(np.uint8)
 
-        src_idx = i
-        vel_proj = project_vels2cam(src_idx, (1232, 1616), viz=False)
-        scan_proj = project_hokuyo2cam(src_idx, (1232, 1616), viz=False)
-        img = get_name(TIMES[src_idx], "img")
-        image = cv2.imread(img).astype(np.uint8)
-        # print(vel_proj.shape)
-        # print(scan_proj.shape)
-        # print(image.shape)
-        x = 160
-        y = 730
-        w = 912
-        h = 228
-        vel_proj = vel_proj[x:x + w, y:y + h].transpose(1, 0)
-        scan_proj = scan_proj[x:x + w, y:y + h].transpose(1, 0)
-        viz_v = colored_depthmap(vel_proj, 0, np.max(vel_proj) + epsilon).astype(np.uint8)
-        viz_s = colored_depthmap(scan_proj, 0, np.max(scan_proj) + epsilon).astype(np.uint8)
+            image = image[x:x + w, y:y + h].transpose(1, 0, 2)
 
-        image = image[x:x + w, y:y + h].transpose(1, 0, 2)
+            # print(viz_v.shape)
+            # print(viz_s.shape)
+            # print(image.shape)
 
-        # print(viz_v.shape)
-        # print(viz_s.shape)
-        # print(image.shape)
+            merged = cv2.vconcat([image, viz_v, viz_s])
+            # cv2.imshow("img", merged)
+            # cv2.waitKey(0)
+            if not os.path.exists("results"):
+                os.mkdir("results")
 
-        merged = cv2.vconcat([image, viz_v, viz_s])
-        # cv2.imshow("img", merged)
-        # cv2.waitKey(0)
-        if not os.path.exists("results"):
-            os.mkdir("results")
-
-        file_path = os.path.join("results", str(src_idx).zfill(5) + ".h5")
-        generate_nclt_h5(file_path, img=image, gt=vel_proj, scan_proj=scan_proj)
+            file_path = os.path.join("results", str(src_idx).zfill(5) + ".h5")
+            generate_nclt_h5(file_path, img=image, gt=vel_proj, scan_proj=scan_proj)
+        except IOError:
+            print("Some file is missing!")
