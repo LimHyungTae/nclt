@@ -26,19 +26,10 @@ def convert(x_s, y_s, z_s):
 
     return x, y, z
 
-def main(args):
+def read_vel_sync(vel_bin):
 
-    if len(sys.argv) < 2:
-        print 'Please specify velodyne file'
-        return 1
 
-    f_bin = open(sys.argv[1], "r")
-
-    if len(sys.argv) >= 3:
-        print 'Writing to ', sys.argv[2]
-        f_csv = open(sys.argv[2], "w")
-    else:
-        f_csv = None
+    f_bin = open(vel_bin, "r")
 
     hits = []
 
@@ -58,15 +49,9 @@ def main(args):
 
         s = "%5.3f, %5.3f, %5.3f, %d, %d" % (x, y, z, i, l)
 
-        if f_csv:
-            f_csv.write('%s\n' % s)
-
         hits += [[x, y, z]]
 
     f_bin.close()
-
-    if f_csv:
-        f_csv.close()
 
     hits = np.asarray(hits)
 
@@ -78,4 +63,4 @@ def main(args):
     return 0
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    read_vel_sync("/home/joohyun/git/velodyne_data/2012-05-11/velodyne_sync/1336759309638372.bin")

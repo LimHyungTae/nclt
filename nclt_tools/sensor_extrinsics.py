@@ -26,6 +26,17 @@ def get_T_B_LB():
   T_B_LB = getTransformation(roll_rad, pitch_rad, yaw_rad, x_m, y_m, z_m)
   return T_B_LB
 
+def get_T_B_h30():
+  x_m = 0.28
+  y_m = 0.
+  z_m = -0.44
+  roll_rad = deg2rad(179.9999)
+  pitch_rad = deg2rad(0.0)
+  yaw_rad = deg2rad(0.0)
+
+  T_B_h30 = getTransformation(roll_rad, pitch_rad, yaw_rad, x_m, y_m, z_m)
+  return T_B_h30
+
 def get_T_B_V():
   x_m = 0.002
   y_m = -0.004

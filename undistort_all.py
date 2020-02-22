@@ -14,7 +14,7 @@ import cv2
 import matplotlib.pyplot as plt
 import argparse
 import re
-import IPython
+
 import os
 import csv
 

@@ -21,19 +21,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.interpolate
 
-def main(args):
+def read_gt(gt_path, cov_path):
 
-    if len(sys.argv) < 3:
-        print 'Please specify ground truth and covariance files'
-        return 1
 
-    gt = np.loadtxt(sys.argv[1], delimiter = ",")
-    cov = np.loadtxt(sys.argv[2], delimiter = ",")
+    gt = np.loadtxt(gt_path, delimiter = ",")
+    cov = np.loadtxt(cov_path, delimiter = ",")
 
     t_cov = cov[:, 0]
 
     # Note: Interpolation is not needed, this is done as a convience
-    interp = scipy.interpolate.interp1d(gt[:, 0], gt[:, 1:], kind='nearest', axis=0)
+    # interp = scipy.interpolate.interp1d(gt[:, 0], gt[:, 1:], kind='nearest', axis=0)
+    interp = scipy.interpolate.interp1d(gt[:, 0], gt[:, 1:], axis=0, fill_value="extrapolate")
     pose_gt = interp(t_cov)
 
     # NED (North, East Down)
@@ -58,4 +56,6 @@ def main(args):
     return 0
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    gt_path = "/home/joohyun/git/ground_truth/groundtruth_2012-05-11.csv"
+    cov_path = "/home/joohyun/git/ground_truth/cov_2012-05-11.csv"
+    read_gt(gt_path, cov_path)

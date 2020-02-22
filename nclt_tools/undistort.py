@@ -62,9 +62,11 @@ class Undistort(object):
                           interpolation=cv2.INTER_CUBIC)
 
 def main():
+    cam_path = "/home/joohyun/git/images/2012-05-11/lb3/Cam5/1336759309638372.tiff"
+    map_path = "/home/joohyun/git/nclt/U2D_Cam5_1616X1232.txt"
     parser = argparse.ArgumentParser(description="Undistort images")
-    parser.add_argument('image', metavar='img', type=str, help='image to undistort')
-    parser.add_argument('map', metavar='map', type=str, help='undistortion map')
+    parser.add_argument('image', metavar='img', default=cam_path, type=str, help='image to undistort')
+    parser.add_argument('map', metavar='map', default=cam_path, type=str, help='undistortion map')
 
     args = parser.parse_args()
 
@@ -85,4 +87,20 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    main()
+    cam_path = "/home/joohyun/git/images/2012-05-11/lb3/Cam5/1336759309638372.tiff"
+    map_path = "/home/joohyun/git/nclt/U2D_Cam5_1616X1232.txt"
+    undistort = Undistort(map_path)
+    print 'Loaded camera calibration'
+
+    im = cv2.imread(cam_path)
+
+    cv2.namedWindow('Image', cv2.WINDOW_NORMAL)
+    cv2.imshow('Image', im)
+
+    im_undistorted = undistort.undistort(im)
+
+    cv2.namedWindow('Undistorted Image', cv2.WINDOW_NORMAL)
+    cv2.imshow('Undistorted Image', im_undistorted)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()

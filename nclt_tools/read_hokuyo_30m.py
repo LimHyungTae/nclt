@@ -22,11 +22,8 @@ def convert(x_s):
 
     return x
 
-def main(args):
+def read_hokuyo(hokuyo_bin):
 
-    if len(sys.argv) < 2:
-        print "Please specifiy input bin file"
-        return 1
 
     # hokuyo_30m always has 1081 hits
     num_hits = 1081
@@ -36,10 +33,10 @@ def main(args):
     radstep = 0.25 * (np.pi/180.0)
     angles = np.linspace(rad0, rad0 + (num_hits-1)*radstep, num_hits)
 
-    f_bin = open(sys.argv[1], "r")
+    f_bin = open(hokuyo_bin, "r")
 
     plt.ion()
-
+    count = 0
     while True:
 
         # Read timestamp
@@ -64,9 +61,11 @@ def main(args):
         plt.title(utime)
         plt.draw()
 
+    plt.show()
     f_bin.close()
 
     return 0
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    read_hokuyo("/home/joohyun/git/hokuyo_data/2012-05-11/hokuyo_30m.bin")
+    # sys.exit(main(sys.argv))
