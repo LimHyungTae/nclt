@@ -1,4 +1,6 @@
 U2D_Cam5_1616X1232.txt
 result
 nclt_tools/results
+nclt_tools/*.tar.gz
+nclt_tools/*.zip
 *.png
