@@ -1,7 +1,7 @@
 import os
 import numpy as np
-ROOT = "/home/yunsookim/git"
-DATE = "2012-11-04"
+ROOT = "/media/data/nclt"
+DATE = "2012-03-25"
 CUTOFF_EDGE = 30
 
 GT_PATH = os.path.join(ROOT, "ground_truth", "groundtruth_" + DATE + ".csv")

@@ -118,7 +118,7 @@ def main():
     # parser.add_argument('image_folders_path',  type=str, help='image_folders_path')
     # parser.add_argument('u_maps', type=str, help='undistortion maps')
 
-    images_folder = '/home/yunsookim/git/images'
+    images_folder = os.path.join(ROOT, "images")
 
     print 'Processing cam ', CAMERA_IDX
     cam_folder = 'Cam' + str(CAMERA_IDX)
