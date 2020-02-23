@@ -1,8 +1,8 @@
 import os
 import numpy as np
-ROOT = "/media/joohyun/My Passport/iros20"
-ROOT = "/home/joohyun/git"
-DATE = "2012-05-11"
+# ROOT = "/media/seungwon/My Passport/iros20"
+ROOT = "/home/seungwon/Downloads/nclt/12-08-04"
+DATE = "2012-08-04"
 
 CUTOFF_EDGE = 30
 
@@ -26,7 +26,8 @@ if os.path.exists(UNDISTORTED_DIR):
         time = int(name.split(".")[0])
         TIMES.append(time)
     sorted(TIMES)
-
+else:
+    print("Maybe Undistorted is not there!")
 ''' parameters '''
 K = np.loadtxt('../params/K_cam%d.csv' % (CAMERA_IDX), delimiter=',')
 x_lb3_c = np.loadtxt('../params/x_lb3_c%d.csv' % (CAMERA_IDX), delimiter=',')

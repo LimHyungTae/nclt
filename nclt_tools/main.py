@@ -161,15 +161,15 @@ def project_vels2cam(t_idx, img_size, viz=True):
     hits_body = load_vel_hits(vel)
     hits_image = project_vel_to_cam(hits_body)
 
-    criteria = [-3, -2, -1, 1, 2, 3]
-    for criterion in criteria:
-        t_prev = TIMES[t_idx + criterion]
-        vel = get_name(t_prev, "vel")
-        hits_body_prev = load_vel_hits(vel)
-        hits_image_prev = project_other_time_vel_to_cam(hits_body_prev, t_prev, time)
-
-        hits_image = np.concatenate((hits_image, hits_image_prev), axis=1)
-
+    # criteria = [-3, -2, -1, 1, 2, 3]
+    # for criterion in criteria:
+    #     t_prev = TIMES[t_idx + criterion]
+    #     vel = get_name(t_prev, "vel")
+    #     hits_body_prev = load_vel_hits(vel)
+    #     hits_image_prev = project_other_time_vel_to_cam(hits_body_prev, t_prev, time)
+    #
+    #     hits_image = np.concatenate((hits_image, hits_image_prev), axis=1)
+    #
 
 
     x_im = hits_image[0, :] / hits_image[2, :]
@@ -255,43 +255,50 @@ if __name__ == '__main__':
     from gen_h5 import generate_nclt_h5
     from tqdm import tqdm
     epsilon = 0.0000001
-    # SKIP = 8 # When train data
-    SKIP = 100 # When val data
-    OFFSET = 1
+
+    SKIP = 8 # When train data
+    SKIP = 101 # When val data
+    OFFSET = 15
     for i in tqdm(range(len(TIMES))):
         if (i + OFFSET) % SKIP != 0:
             continue
         try:
-            src_idx = i
-            vel_proj = project_vels2cam(src_idx, (1232, 1616), viz=False)
-            scan_proj = project_hokuyo2cam(src_idx, (1232, 1616), viz=False)
-            img = get_name(TIMES[src_idx], "img")
-            image = cv2.imread(img).astype(np.uint8)
-            # print(vel_proj.shape)
-            # print(scan_proj.shape)
-            # print(image.shape)
-            x = 160
-            y = 730
-            w = 912
-            h = 228
-            vel_proj = vel_proj[x:x + w, y:y + h].transpose(1, 0)
-            scan_proj = scan_proj[x:x + w, y:y + h].transpose(1, 0)
-            viz_v = colored_depthmap(vel_proj, 0, np.max(vel_proj) + epsilon).astype(np.uint8)
-            viz_s = colored_depthmap(scan_proj, 0, np.max(scan_proj) + epsilon).astype(np.uint8)
+            try:
+                src_idx = i
+                vel_proj = project_vels2cam(src_idx, (1232, 1616), viz=False)
+                scan_proj = project_hokuyo2cam(src_idx, (1232, 1616), viz=False)
+                img = get_name(TIMES[src_idx], "img")
+                image = cv2.imread(img)
 
-            image = image[x:x + w, y:y + h].transpose(1, 0, 2)
+                image = image.astype(np.uint8)
+                # print(vel_proj.shape)
+                # print(scan_proj.shape)
+                # print(image.shape)
+                x = 160
+                y = 700
+                w = 912
+                h = 228
+                vel_proj = vel_proj[x:x + w, y:y + h].transpose(1, 0)
+                scan_proj = scan_proj[x:x + w, y:y + h].transpose(1, 0)
+                viz_v = colored_depthmap(vel_proj, 0, np.max(vel_proj) + epsilon).astype(np.uint8)
+                viz_s = colored_depthmap(scan_proj, 0, np.max(scan_proj) + epsilon).astype(np.uint8)
 
-            # print(viz_v.shape)
-            # print(viz_s.shape)
-            # print(image.shape)
+                image = image[x:x + w, y:y + h].transpose(1, 0, 2)
 
-            merged = cv2.vconcat([image, viz_v, viz_s])
-            # cv2.imshow("img", merged)
-            # cv2.waitKey(0)
-            if not os.path.exists("results"):
-                os.mkdir("results")
+                # print(viz_v.shape)
+                # print(viz_s.shape)
+                # print(image.shape)
 
-            file_path = os.path.join("results", str(src_idx).zfill(5) + ".h5")
-            generate_nclt_h5(file_path, img=image, gt=vel_proj, scan_proj=scan_proj)
+                merged = cv2.vconcat([image, viz_v, viz_s])
+                # cv2.imshow("img", merged)
+                # cv2.waitKey(0)
+                dir_saved = os.path.join(ROOT, DATE)
+                if not os.path.exists(dir_saved):
+                    os.mkdir(dir_saved)
+
+                file_path = os.path.join(dir_saved, str(src_idx).zfill(5) + ".h5")
+                generate_nclt_h5(file_path, img=image, gt=vel_proj, scan_proj=scan_proj)
+            except AttributeError:
+                print("Some files are weird!")
         except IOError:
-            print("Some file is missing!")
+            print("Some files are missing!")

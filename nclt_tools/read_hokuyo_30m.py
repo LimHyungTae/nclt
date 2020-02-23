@@ -93,7 +93,8 @@ def sync_hokuyo(hokuyo_bin):
 
             if is_initial:
                 if utime >= TIMES[0]:
-                    raise RuntimeError("Should pop TIMES!")
+                    TIMES.pop(0)
+                    # raise RuntimeError("Should pop TIMES!")
                 else:
                     is_initial = False
 
